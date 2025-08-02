@@ -22,7 +22,7 @@ typedef enum log_level {
     LOG_LEVEL_TRACE
 } log_level;
 
-bool8_t initialize_logging();
+bool8 initialize_logging();
 void shutdown_logging();
 
 API void log_output(log_level level, const char* message, ...);

@@ -12,7 +12,7 @@ int main() {
     TRACE("This is a trace message with code %d", 0);
 
     platform_state state;
-    if (platform_startup(&state, "Test Engine", 100, 100, 800, 600)) {
+    if (platform_init(&state, "Test Engine", 100, 100, 800, 600)) {
         while (TRUE) {
             platform_pump_msg(&state);
         }

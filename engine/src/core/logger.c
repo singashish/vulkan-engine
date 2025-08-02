@@ -6,7 +6,7 @@
 #include <string.h>
 #include <stdarg.h>
 
-bool8_t initialize_logging() {
+bool8 initialize_logging() {
     // Initialize logging subsystem
     return TRUE;
 }
@@ -26,8 +26,8 @@ void log_output(log_level level, const char* message, ...) {
         "TRACE : "
     };
 
-    bool8_t is_error = (level == LOG_LEVEL_FATAL || level == LOG_LEVEL_ERROR);
-    const int32_t msg_len = 32000;
+    bool8 is_error = (level == LOG_LEVEL_FATAL || level == LOG_LEVEL_ERROR);
+    const int32 msg_len = 32000;
     char output_msg[msg_len];
     memset(output_msg, 0, sizeof(output_msg));
 
@@ -47,7 +47,7 @@ void log_output(log_level level, const char* message, ...) {
     }
 }
 
-void assert_failed(const char* expression, const char* msg, const char* file, int32_t line) {
+void assert_failed(const char* expression, const char* msg, const char* file, int32 line) {
     log_output(LOG_LEVEL_FATAL, "Assertion failed: %s\nmessage: %s\nfile: %s\nline: %d\n",
                 expression, msg, file, line);
 }

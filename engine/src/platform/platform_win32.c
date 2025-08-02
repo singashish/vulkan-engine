@@ -14,16 +14,16 @@ typedef struct internal_state {
 } internal_state;
 
 // Clock
-static float64_t clock_frequency;
+static float64 clock_frequency;
 static LARGE_INTEGER start_time;
 
-LRESULT CALLBACK win32_process_message(HWND hwnd, uint32_t msg, WPARAM w_param, LPARAM l_param);
+LRESULT CALLBACK win32_process_message(HWND hwnd, uint32 msg, WPARAM w_param, LPARAM l_param);
 
-bool8_t platform_startup(
+bool8 platform_init(
     platform_state *plat_state,
     const char *app_name,
-    int32_t x, int32_t y,
-    int32_t width, int32_t height) {
+    int32 x, int32 y,
+    int32 width, int32 height) {
 
     plat_state -> internal_state = malloc(sizeof(internal_state));
     internal_state *state = (internal_state *)plat_state -> internal_state;
@@ -49,18 +49,18 @@ bool8_t platform_startup(
     }
 
     // Create window
-    uint32_t client_x = x;
-    uint32_t client_y = y;
-    uint32_t client_width = width;
-    uint32_t client_height = height;
+    uint32 client_x = x;
+    uint32 client_y = y;
+    uint32 client_width = width;
+    uint32 client_height = height;
 
-    uint32_t window_x = client_x;
-    uint32_t window_y = client_y;
-    uint32_t window_width = client_width;
-    uint32_t window_height = client_height;
+    uint32 window_x = client_x;
+    uint32 window_y = client_y;
+    uint32 window_width = client_width;
+    uint32 window_height = client_height;
 
-    uint32_t window_style = WS_OVERLAPPED | WS_SYSMENU | WS_CAPTION;
-    uint32_t window_ex_style = WS_EX_APPWINDOW;
+    uint32 window_style = WS_OVERLAPPED | WS_SYSMENU | WS_CAPTION;
+    uint32 window_ex_style = WS_EX_APPWINDOW;
 
     window_style |= WS_MAXIMIZEBOX;
     window_style |= WS_MINIMIZEBOX;
@@ -94,14 +94,14 @@ bool8_t platform_startup(
     }
 
     // Show the window
-    bool32_t should_activate = TRUE;
-    int32_t show_window_cmd_flags = should_activate ? SW_SHOW : SW_SHOWNOACTIVATE;
+    bool32 should_activate = TRUE;
+    int32 show_window_cmd_flags = should_activate ? SW_SHOW : SW_SHOWNOACTIVATE;
     ShowWindow(state -> hwnd, show_window_cmd_flags);
 
     // Clock setup
     LARGE_INTEGER frequency;
     QueryPerformanceFrequency(&frequency);
-    clock_frequency = 1.0 / (float64_t)frequency.QuadPart;
+    clock_frequency = 1.0 / (float64)frequency.QuadPart;
     QueryPerformanceCounter(&start_time);
 
     return TRUE;
@@ -117,7 +117,7 @@ void platform_shutdown(platform_state *plat_state) {
     }
 }
 
-bool8_t platform_pump_msg(platform_state *plat_state) {
+bool8 platform_pump_msg(platform_state *plat_state) {
     MSG msg;
     while (PeekMessageA(&msg, NULL, 0, 0, PM_REMOVE)) {
         TranslateMessage(&msg);
@@ -127,59 +127,59 @@ bool8_t platform_pump_msg(platform_state *plat_state) {
     return TRUE;
 }
 
-void* platform_allocate(uint64_t size, bool8_t aligned) {
+void* platform_allocate(uint64 size, bool8 aligned) {
     return malloc(size);
 }
 
-void platform_free(void *block, bool8_t aligned) {
+void platform_free(void *block, bool8 aligned) {
     free(block);
 }
 
-void* platform_zero_memory(void *block, uint64_t size) {
+void* platform_zero_memory(void *block, uint64 size) {
     return memset(block, 0, size);
 }
 
-void* platform_copy_memory(void *dest, const void *src, uint64_t size) {
+void* platform_copy_memory(void *dest, const void *src, uint64 size) {
     return memcpy(dest, src, size);
 }
 
-void* platform_set_memory(void *dest, int32_t value, uint64_t size) {
+void* platform_set_memory(void *dest, int32 value, uint64 size) {
     return memset(dest, value, size);
 }
 
-void platform_console_write(const char* msg, uint8_t color) {
+void platform_console_write(const char* msg, uint8 color) {
     HANDLE console_handle = GetStdHandle(STD_OUTPUT_HANDLE);
     // FATAL, ERROR, WARNING, INFO, DEBUG, TRACE
-    static uint8_t levels[6] = {64, 4, 6, 2, 1, 8};
+    static uint8 levels[6] = {64, 4, 6, 2, 1, 8};
     SetConsoleTextAttribute(console_handle, levels[color]);
     OutputDebugStringA(msg);
-    uint64_t msg_len = strlen(msg);
+    uint64 msg_len = strlen(msg);
     LPDWORD num_written = 0;
     WriteConsoleA(GetStdHandle(STD_OUTPUT_HANDLE), msg, (DWORD)msg_len, num_written, 0);
 }
 
-void platform_console_write_error(const char* msg, uint8_t color) {
+void platform_console_write_error(const char* msg, uint8 color) {
     HANDLE console_handle = GetStdHandle(STD_ERROR_HANDLE);
     // FATAL, ERROR, WARNING, INFO, DEBUG, TRACE
-    static uint8_t levels[6] = {64, 4, 6, 2, 1, 8};
+    static uint8 levels[6] = {64, 4, 6, 2, 1, 8};
     SetConsoleTextAttribute(console_handle, levels[color]);
     OutputDebugStringA(msg);
-    uint64_t msg_len = strlen(msg);
+    uint64 msg_len = strlen(msg);
     LPDWORD num_written = 0;
     WriteConsoleA(GetStdHandle(STD_ERROR_HANDLE), msg, (DWORD)msg_len, num_written, 0);
 }
 
-float64_t platform_get_absolute_time() {
+float64 platform_get_absolute_time() {
     LARGE_INTEGER current_time;
     QueryPerformanceCounter(&current_time);
-    return (float64_t)current_time.QuadPart * clock_frequency;
+    return (float64)current_time.QuadPart * clock_frequency;
 }
 
-void platform_sleep(uint64_t ms) {
+void platform_sleep(uint64 ms) {
     Sleep(ms);
 }
 
-LRESULT CALLBACK win32_process_message(HWND hwnd, uint32_t msg, WPARAM w_param, LPARAM l_param) {
+LRESULT CALLBACK win32_process_message(HWND hwnd, uint32 msg, WPARAM w_param, LPARAM l_param) {
     switch (msg) {
         case WM_ERASEBKGND:
             // Notify the OS that erasing will be handled by the app to prevent flickering
@@ -194,8 +194,8 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, uint32_t msg, WPARAM w_param, 
             // Get the update size
             // RECT r;
             // GetClientRect(hwnd, &r);
-            // int32_t width = r.right - r.left;
-            // int32_t height = r.bottom - r.top;
+            // int32 width = r.right - r.left;
+            // int32 height = r.bottom - r.top;
 
             // Fire an event to resize the app
             // return 0;
@@ -205,14 +205,14 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, uint32_t msg, WPARAM w_param, 
         case WM_KEYUP:
         case WM_SYSKEYUP: {
             // Key pressed/released
-            // bool8_t pressed = (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN);
+            // bool8 pressed = (msg == WM_KEYDOWN || msg == WM_SYSKEYDOWN);
             // TODO: Handle key events
         } break;
         case WM_MOUSEMOVE: {
             // Mouse moved
         } break;
         case WM_MOUSEWHEEL: {
-            // int32_t z_delta = GET_WHEEL_DELTA_WPARAM(w_param);
+            // int32 z_delta = GET_WHEEL_DELTA_WPARAM(w_param);
             // if (z_delta != 0) {
             //     // Flatten the input to an OS-independent {-1, 1}
             //     z_delta = (z_delta < 0) ? -1 : 1;
@@ -225,7 +225,7 @@ LRESULT CALLBACK win32_process_message(HWND hwnd, uint32_t msg, WPARAM w_param, 
         case WM_LBUTTONUP:
         case WM_MBUTTONUP:
         case WM_RBUTTONUP: {
-            // bool8_t pressed = (msg == WM_LBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_RBUTTONDOWN);
+            // bool8 pressed = (msg == WM_LBUTTONDOWN || msg == WM_MBUTTONDOWN || msg == WM_RBUTTONDOWN);
             // TODO: Handle mouse button events
         } break;
     }

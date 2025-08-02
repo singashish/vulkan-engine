@@ -13,7 +13,7 @@
 #define debugBreak() __builtin_trap()
 #endif
 
-API void assert_failed(const char* expression, const char* msg, const char* file, int32_t line);
+API void assert_failed(const char* expression, const char* msg, const char* file, int32 line);
 
 #define ASSERT(expr)                                                        \
     {                                                                       \

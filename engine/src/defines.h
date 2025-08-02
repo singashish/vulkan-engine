@@ -1,24 +1,24 @@
 #pragma once
 
 // Unsigned int types
-typedef unsigned char uint8_t;
-typedef unsigned short uint16_t;
-typedef unsigned int uint32_t;
-typedef unsigned long long uint64_t;
+typedef unsigned char uint8;
+typedef unsigned short uint16;
+typedef unsigned int uint32;
+typedef unsigned long long uint64;
 
 // Signed int types
-typedef signed char int8_t;
-typedef signed short int16_t;
-typedef signed int int32_t;
-typedef signed long long int64_t;
+typedef signed char int8;
+typedef signed short int16;
+typedef signed int int32;
+typedef signed long long int64;
 
 // Floating point types
-typedef float float32_t;
-typedef double float64_t;
+typedef float float32;
+typedef double float64;
 
 // Boolean type
-typedef int bool32_t;
-typedef char bool8_t;
+typedef int bool32;
+typedef char bool8;
 
 // Properly define static assertions
 #if defined(__clang__) || defined(__gcc__)
@@ -28,18 +28,18 @@ typedef char bool8_t;
 #endif
 
 // Ensure all type are of the correct size
-STATIC_ASSERT(sizeof(uint8_t) == 1, "uint8_t must be 1 byte");
-STATIC_ASSERT(sizeof(uint16_t) == 2, "uint16_t must be 2 bytes");
-STATIC_ASSERT(sizeof(uint32_t) == 4, "uint32_t must be 4 bytes");
-STATIC_ASSERT(sizeof(uint64_t) == 8, "uint64_t must be 8 bytes");
+STATIC_ASSERT(sizeof(uint8) == 1, "uint8 must be 1 byte");
+STATIC_ASSERT(sizeof(uint16) == 2, "uint16 must be 2 bytes");
+STATIC_ASSERT(sizeof(uint32) == 4, "uint32 must be 4 bytes");
+STATIC_ASSERT(sizeof(uint64) == 8, "uint64 must be 8 bytes");
 
-STATIC_ASSERT(sizeof(int8_t) == 1, "int8_t must be 1 byte");
-STATIC_ASSERT(sizeof(int16_t) == 2, "int16_t must be 2 bytes");
-STATIC_ASSERT(sizeof(int32_t) == 4, "int32_t must be 4 bytes");
-STATIC_ASSERT(sizeof(int64_t) == 8, "int64_t must be 8 bytes");
+STATIC_ASSERT(sizeof(int8) == 1, "int8 must be 1 byte");
+STATIC_ASSERT(sizeof(int16) == 2, "int16 must be 2 bytes");
+STATIC_ASSERT(sizeof(int32) == 4, "int32 must be 4 bytes");
+STATIC_ASSERT(sizeof(int64) == 8, "int64 must be 8 bytes");
 
-STATIC_ASSERT(sizeof(float32_t) == 4, "float32_t must be 4 bytes");
-STATIC_ASSERT(sizeof(float64_t) == 8, "float64_t must be 8 bytes");
+STATIC_ASSERT(sizeof(float32) == 4, "float32 must be 4 bytes");
+STATIC_ASSERT(sizeof(float64) == 8, "float64 must be 8 bytes");
 
 #define TRUE 1
 #define FALSE 0
